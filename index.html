@@ -54,15 +54,6 @@
         const HUB_ORIGIN = 'https://hubworldsite.onrender.com';
         let currentToken = null;
 
-        // Progress status display function
-        function showProgressStatus(message, isError = false) {
-            const statusDiv = document.getElementById('progress-status');
-            statusDiv.className = `mt-4 p-4 rounded-lg ${isError ? 'bg-red-100 text-red-700' : 'bg-green-100 text-green-700'}`;
-            statusDiv.textContent = message;
-            statusDiv.classList.remove('hidden');setTimeout(() => {
-                statusDiv.classList.add('hidden');
-            }, 5000);
-        }
 
         function parseToken(token) {
             if (!token) return null;
@@ -249,12 +240,10 @@
                         updateGameFrameSrc(currentToken);
                     } else {
                         console.error('Failed to refresh token. Redirecting to login...');
-                        window.location.href = `${HUB_ORIGIN}/login?redirect=${encodeURIComponent(window.location.href)}`;
                     }
                 }
             } else {
                 console.log('No token found in URL. Redirecting to login...');
-                window.location.href = `${HUB_ORIGIN}/login?redirect=${encodeURIComponent(window.location.href)}`;
             }
 
             // Set up token refresh interval
@@ -267,6 +256,7 @@
                 }
             }, 15 * 60 * 1000);
 
+            window.addEventListener('message', handleMessage);console.log('Token management setup complete');
         })();
     </script>
 </body>
